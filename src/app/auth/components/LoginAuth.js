@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import {
   Form,
@@ -11,11 +10,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { signInWithEmailAndPassword } from "../actions";
 import { useRouter } from "next/navigation";
+import { Button, Input } from "@nextui-org/react";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -54,6 +51,7 @@ const LoginAuth = () => {
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input
+                  variant="bordered"
                   placeholder="example@gmail.com"
                   {...field}
                   type="email"
@@ -72,6 +70,7 @@ const LoginAuth = () => {
               <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
+                  variant="bordered"
                   placeholder="password"
                   {...field}
                   type="password"
@@ -83,9 +82,8 @@ const LoginAuth = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full flex gap-2">
+        <Button color="primary" type="submit" className="w-full flex gap-2">
           SignIn
-          <AiOutlineLoading3Quarters className={cn("animate-spin")} />
         </Button>
       </form>
     </Form>

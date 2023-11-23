@@ -1,26 +1,21 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import OAuth from "./OAuth";
 import LoginAuth from "./LoginAuth";
 import RegisterAuth from "./RegisterAuth";
+import { Tab, Tabs } from "@nextui-org/react";
 
 export function AuthForm() {
   return (
     <div className="w-full space-y-5">
       <OAuth />
-      <Tabs defaultValue="signin" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="signin">SignIn</TabsTrigger>
-          <TabsTrigger value="register">Register</TabsTrigger>
-        </TabsList>
-        <TabsContent value="signin">
+      <Tabs fullWidth className="w-full">
+        <Tab key={"signin"} title="SignIn">
           <LoginAuth />
-        </TabsContent>
-        <TabsContent value="register">
+        </Tab>
+        <Tab key={"register"} title="Register">
           <RegisterAuth />
-        </TabsContent>
+        </Tab>
       </Tabs>
     </div>
   );
