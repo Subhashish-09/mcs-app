@@ -1,6 +1,7 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 const signUpWithEmailAndPassword = async (email, password) => {
   const supabase = await supabaseServer();
@@ -18,4 +19,10 @@ const signInWithEmailAndPassword = async (email, password) => {
   return JSON.stringify(result);
 };
 
-export { signInWithEmailAndPassword, signUpWithEmailAndPassword };
+const logout = async () => {
+  const supabse = await supabaseServer();
+  await supabse.auth.signOut();
+  return redirect("/");
+};
+
+export { signInWithEmailAndPassword, signUpWithEmailAndPassword, logout };

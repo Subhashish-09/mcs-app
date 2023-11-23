@@ -1,8 +1,8 @@
 import { readUserSession } from "@/lib/supabase/user";
 import { redirect } from "next/navigation";
-import OAuth from "./components/OAuth";
+import { AuthForm } from "./components/AuthForm";
 
-const OAuthPage = async () => {
+const AuthPage = async () => {
   const { data } = await readUserSession();
 
   if (data.session) {
@@ -12,10 +12,10 @@ const OAuthPage = async () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-96">
-        <OAuth />
+        <AuthForm />
       </div>
     </div>
   );
 };
 
-export default OAuthPage;
+export default AuthPage;

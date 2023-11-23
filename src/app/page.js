@@ -1,19 +1,9 @@
-import { supabaseServer } from "@/lib/supabase/server";
 import { readUserSession } from "@/lib/supabase/user";
 import Image from "next/image";
-import { redirect } from "next/navigation";
+import { logout } from "./auth/actions";
 
 export default async function Home() {
   const { data } = await readUserSession();
-
-  const logout = async () => {
-    "use server";
-    const supabse = await supabaseServer();
-    await supabse.auth.signOut();
-    redirect("/");
-  };
-
-  console.log(data);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
