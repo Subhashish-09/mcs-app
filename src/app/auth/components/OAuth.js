@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@nextui-org/react";
 import supabaseClient from "@/lib/supabase/client";
 
 const OAuth = () => {
