@@ -27,11 +27,7 @@ const loadPractiseData = async (practiseId) => {
 const PractisePanelPage = async ({ params: { practiseId } }) => {
   const { practise, practiseQBank } = await loadPractiseData(practiseId);
 
-  return (
-    <div className="m-5">
-      <PractisePanel practise={practise} questions={practiseQBank} />
-    </div>
-  );
+  return <PractisePanel practise={practise} questions={practiseQBank} />;
 };
 
 export default PractisePanelPage;

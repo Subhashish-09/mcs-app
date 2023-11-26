@@ -16,7 +16,6 @@
     "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.38.5",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
     "framer-motion": "^10.16.5",
     "lucide-react": "^0.292.0",
     "next": "14.0.3",
@@ -24,7 +23,6 @@
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
     "react-icons": "^4.12.0",
-    "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
   },
