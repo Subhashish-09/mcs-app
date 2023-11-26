@@ -1,4 +1,5 @@
 import { supabaseServer } from "@/lib/supabase/server";
+import PractisePanel from "../components/practise-panel";
 
 const loadPractiseData = async (practiseId) => {
   const supabase = await supabaseServer();
@@ -28,12 +29,7 @@ const PractisePanelPage = async ({ params: { practiseId } }) => {
 
   return (
     <div className="m-5">
-      {practiseQBank.map((question) => (
-        <ul>
-          <li>Question No: {question["question_no"]}</li>
-          <li dangerouslySetInnerHTML={{ __html: question["question"] }} />
-        </ul>
-      ))}
+      <PractisePanel practise={practise} questions={practiseQBank} />
     </div>
   );
 };
