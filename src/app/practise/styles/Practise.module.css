@@ -1,0 +1,4 @@
+.practiseQuestionHeight {
+  height: calc(100vh - 81px);
+  overflow-y: scroll;
+}

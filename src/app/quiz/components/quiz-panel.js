@@ -7,6 +7,7 @@ import QuizQuestion from "./quiz-question";
 import { loadQuestion } from "../actions/quiz-functions";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
+import styles from "../styles/Quiz.module.css";
 
 const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
   const [question, setQuestion] = useState(quizQBank);
@@ -96,7 +97,7 @@ const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
               </Button>
             ))}
           </div>
-          <div className="quizQuestionHeight">
+          <div className={styles["quizQuestionHeight"]}>
             <QuizQuestion
               question_no={question["questionNo"]}
               question={question["question"]}
@@ -126,7 +127,11 @@ const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
               Submit
             </Button>
           </div>
-          <div className="quizButtonsHeight p-5 border-2 border-blue-900">
+          <div
+            className={
+              styles["quizButtonsHeight"] + " p-5 border-2 border-blue-900"
+            }
+          >
             <div className="grid grid-cols-5 gap-3">
               {questionButtons
                 .filter((e) => e["question_sub_category"] === currentSubject)

@@ -7,6 +7,7 @@ import PractiseContext, {
 import PractiseOptions from "./practise-options";
 import PractiseQuestion from "./practise-question";
 import PractiseNavigation from "./practise-navigation";
+import styles from "../styles/Practise.module.css";
 
 const PractisePanel = ({ questions, practise }) => {
   return (
@@ -35,7 +36,7 @@ const PractiseWithProvider = ({ questions, practise }) => {
     <div className="md:grid md:grid-cols-12">
       <div className="col-span-2 h-screen"></div>
       <div className="flex flex-nowrap flex-col gap-4 h-screen  col-span-8 p-4">
-        <div className="practiseQuestionHeight">
+        <div className={styles["practiseQuestionHeight"]}>
           <PractiseQuestion
             question_no={activeQuestion["question_no"]}
             question={activeQuestion["question"]}

@@ -1,0 +1,9 @@
+.quizButtonsHeight {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.quizQuestionHeight {
+  height: 400px;
+  overflow-y: scroll;
+}
