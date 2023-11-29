@@ -13,6 +13,7 @@ const FlashCard = ({ FlashCards, ci }) => {
 
   useEffect(() => {
     setCurrentFlashCard(flashCards[currentFCNo]);
+    setFlip(false);
   }, [currentFCNo]);
 
   useEffect(() => {
