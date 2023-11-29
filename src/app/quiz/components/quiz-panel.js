@@ -64,7 +64,7 @@ const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
   return (
     <>
       <div className="md:grid md:grid-cols-12 gap-3 px-4">
-        <div className="flex flex-nowrap flex-col gap-4 h-screen bg-[#e9e9e9] col-span-8 p-4">
+        <div className="flex flex-nowrap flex-col gap-4 h-screen  col-span-8 p-4">
           <div className="h-16 flex justify-between">
             <Image
               src={"https://via.placeholder.com/200x65"}
@@ -147,25 +147,6 @@ const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
                     {e["question_no"]}
                   </Button>
                 ))}
-            </div>
-          </div>
-          <div className="h-56 mb-5 p-5 border-2 border-blue-900">
-            <div className="pb-5 text-xl">
-              <p>{currentSubject} Overview</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <Button disabled color={"primary"}>
-                X Attempted
-              </Button>
-              <Button disabled color={"primary"}>
-                X Visited
-              </Button>
-              <Button disabled color={"primary"}>
-                X Unseen
-              </Button>
-              <Button disabled color={"primary"}>
-                X Skipped
-              </Button>
             </div>
           </div>
         </div>
