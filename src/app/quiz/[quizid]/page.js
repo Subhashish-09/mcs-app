@@ -12,7 +12,7 @@ const loadData = async (quizid) => {
   } = await readUserSession();
 
   if (session === null) {
-    redirect("/auth");
+    redirect("/auth?next=/quiz/" + quizid);
   }
   const userId = session?.user?.id;
 

@@ -11,10 +11,10 @@ export function AuthForm({ next }) {
       <OAuth next={next} />
       <Tabs fullWidth className="w-full">
         <Tab key={"signin"} title="SignIn">
-          <LoginAuth />
+          <LoginAuth next={next} />
         </Tab>
         <Tab key={"register"} title="Register">
-          <RegisterAuth />
+          <RegisterAuth next={next} />
         </Tab>
       </Tabs>
     </div>

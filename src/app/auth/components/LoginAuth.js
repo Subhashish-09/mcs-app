@@ -21,7 +21,7 @@ const FormSchema = z.object({
   }),
 });
 
-const LoginAuth = () => {
+const LoginAuth = ({ next }) => {
   const router = useRouter();
 
   const form = useForm({
@@ -36,7 +36,7 @@ const LoginAuth = () => {
     const result = await signInWithEmailAndPassword(data.email, data.password);
     const { error } = JSON.parse(result);
     if (!error) {
-      router.reload();
+      router.replace(next ?? "/");
     }
   }
 

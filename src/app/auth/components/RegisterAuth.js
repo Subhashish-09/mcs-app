@@ -30,7 +30,7 @@ const FormSchema = z
     path: ["confirm"],
   });
 
-const RegisterAuth = () => {
+const RegisterAuth = ({ next }) => {
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(FormSchema),
