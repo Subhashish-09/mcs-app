@@ -1,4 +1,4 @@
-import FlashCard from "../components/flash-card-panel";
+import FlashCard from "./components/flash-card-panel";
 
 const flashCards = {
   2: [

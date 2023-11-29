@@ -3,7 +3,7 @@ import styles from "../styles/FlashCard.module.css";
 
 const SideBarFlashCard = ({ cardTitle, cardBottom, cardId }) => {
   return (
-    <Link href={"cards?ci=" + cardId}>
+    <Link href={"flash-card?ci=" + cardId}>
       <div className="flex justify-between gap-3">
         <div className={styles["SideFlashCard"]}></div>
         <div className="w-64 flex flex-col gap-4">
