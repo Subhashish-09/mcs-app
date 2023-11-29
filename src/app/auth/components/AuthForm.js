@@ -5,10 +5,10 @@ import LoginAuth from "./LoginAuth";
 import RegisterAuth from "./RegisterAuth";
 import { Tab, Tabs } from "@nextui-org/react";
 
-export function AuthForm() {
+export function AuthForm({ next }) {
   return (
     <div className="w-full space-y-5">
-      <OAuth />
+      <OAuth next={next} />
       <Tabs fullWidth className="w-full">
         <Tab key={"signin"} title="SignIn">
           <LoginAuth />

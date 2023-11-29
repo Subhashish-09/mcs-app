@@ -8,7 +8,7 @@ const ChatPanelPage = async () => {
   } = await readUserSession();
 
   if (session === null) {
-    redirect("/auth");
+    redirect("/auth?next=/chat");
   }
   const userId = session?.user?.id;
   return <ChatPanel userId={userId} />;

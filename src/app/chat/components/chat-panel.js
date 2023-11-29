@@ -83,7 +83,7 @@ const ChatPanel = ({ userId }) => {
   });
 
   return (
-    <>
+    <div className="m-8">
       {" "}
       {messages?.map((message) => (
         <ul>
@@ -93,16 +93,16 @@ const ChatPanel = ({ userId }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleMessage)}
-          className="w-full space-y-6 flex fixed bottom-0"
+          className="w-full  flex fixed items-center flex-wrap  bottom-8"
         >
           <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message</FormLabel>
                 <FormControl>
                   <Input
+                    size="sm"
                     variant="bordered"
                     placeholder="Enter Your Message"
                     {...field}
@@ -110,17 +110,16 @@ const ChatPanel = ({ userId }) => {
                     onChange={field.onChange}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button color="primary" type="submit" className=" flex gap-2">
+          <Button color="primary" size="lg" type="submit">
             Submit
           </Button>
         </form>
       </Form>
-    </>
+    </div>
   );
 };
 

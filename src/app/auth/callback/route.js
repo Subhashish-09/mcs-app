@@ -15,12 +15,14 @@ export const GET = async (request) => {
   const code = searchParams.get("code");
   const next = searchParams.get("next") ?? "/";
 
+  console.log(searchParams);
+
   if (code) {
     const supabase = await supabaseServer();
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(requestUrl.origin);
+      return NextResponse.redirect(requestUrl.origin + next);
     }
   }
   return NextResponse.redirect("/auth/auth-code-error");
