@@ -16,6 +16,24 @@ export default async function Home() {
           Login/Register
         </Button>
       )}
+
+      <div>
+        <p>
+          <Link href="/chat">Chat</Link>
+        </p>
+        <p>
+          <Link href="/flash-card?ci=2">FlashCard</Link>
+        </p>
+        <p>
+          <Link href="/poll?pi=2">Poll</Link>
+        </p>
+        <p>
+          <Link href="/practise/PQZ_FfY4KEKyVsB~9">Practise</Link>
+        </p>
+        <p>
+          <Link href="/quiz/QZ_qhorgK">Quiz</Link>
+        </p>
+      </div>
     </>
   );
 }
