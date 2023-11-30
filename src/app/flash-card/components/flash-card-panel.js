@@ -78,6 +78,11 @@ const FlashCard = ({ FlashCards, ci }) => {
           cardTitle={"1111111111111111111111111111111"}
           cardBottom={"12 FlashCards"}
         />
+        <SideBarFlashCard
+          cardId={"6"}
+          cardTitle={"1111111111111111111111111111111"}
+          cardBottom={"12 FlashCards"}
+        />
       </div>
     </div>
   );

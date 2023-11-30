@@ -168,6 +168,58 @@ const flashCards = {
       FlashCardBack: "(4/3)πr³",
     },
   ],
+  6: [
+    {
+      FlashCardFront: "Who wrote 'The Canterbury Tales'?",
+      FlashCardBack: "Geoffrey Chaucer",
+    },
+    {
+      FlashCardFront: "What is the formula for the area of a rectangle?",
+      FlashCardBack: "length × width",
+    },
+    {
+      FlashCardFront:
+        "Who is the current Prime Minister of the United Kingdom?",
+      FlashCardBack: "Boris Johnson",
+    },
+    {
+      FlashCardFront: "What is the capital of China?",
+      FlashCardBack: "Beijing",
+    },
+    {
+      FlashCardFront: "What is the chemical symbol for water?",
+      FlashCardBack: "H₂O",
+    },
+    {
+      FlashCardFront: "Who discovered gravity?",
+      FlashCardBack: "Isaac Newton",
+    },
+    {
+      FlashCardFront: "What is the currency of Brazil?",
+      FlashCardBack: "Brazilian Real",
+    },
+    {
+      FlashCardFront: "What is the boiling point of water in Fahrenheit?",
+      FlashCardBack: "212 degrees",
+    },
+    {
+      FlashCardFront: "Who wrote 'The Grapes of Wrath'?",
+      FlashCardBack: "John Steinbeck",
+    },
+    { FlashCardFront: "What is the square root of 64?", FlashCardBack: "8" },
+    {
+      FlashCardFront: "What is the largest ocean on Earth?",
+      FlashCardBack: "Pacific Ocean",
+    },
+    {
+      FlashCardFront: "Who discovered penicillin?",
+      FlashCardBack: "Alexander Fleming",
+    },
+    {
+      FlashCardFront: "What is the chemical symbol for oxygen?",
+      FlashCardBack: "O₂",
+    },
+  ],
 };
 
 const FlashCardPage = ({ searchParams: { ci } }) => {
