@@ -3,14 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import supabaseClient from "@/lib/supabase/client";
@@ -19,7 +12,7 @@ const FormSchema = z.object({
   message: z.string().min(1),
 });
 
-const ChatPanel = ({ userId }) => {
+const ChatPanel = () => {
   const supabase = supabaseClient();
   const [messages, setMessages] = useState();
 
@@ -84,16 +77,17 @@ const ChatPanel = ({ userId }) => {
 
   return (
     <div className="m-8">
-      {" "}
-      {messages?.map((message) => (
-        <ul>
-          <li>{message.message_text}</li>
-        </ul>
-      ))}
+      <div className="w-[324px] border-solid border-blue border-2">
+        {messages?.map((message) => (
+          <ul>
+            <li>{message.message_text}</li>
+          </ul>
+        ))}
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleMessage)}
-          className="w-full  flex fixed items-center flex-wrap  bottom-8"
+          className="  flex fixed items-center flex-wrap  bottom-8"
         >
           <FormField
             control={form.control}

@@ -10,8 +10,8 @@ const ChatPanelPage = async () => {
   if (session === null) {
     redirect("/auth?next=/chat");
   }
-  const userId = session?.user?.id;
-  return <ChatPanel userId={userId} />;
+
+  return <ChatPanel />;
 };
 
 export default ChatPanelPage;
