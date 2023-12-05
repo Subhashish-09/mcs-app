@@ -144,7 +144,7 @@ const InstructorSubcategoryDataTable = ({
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [users, setUsers] = React.useState(subCategoryData);
+  const [subCategories, setSubCategories] = React.useState(subCategoryData);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -157,24 +157,24 @@ const InstructorSubcategoryDataTable = ({
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredSubCategories = [...subCategories];
 
     if (hasSearchFilter) {
-      filteredUsers = filteredUsers.filter((user) =>
-        user.sub_category_name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredSubCategories = filteredSubCategories.filter((sc) =>
+        sc.sub_category_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.practise_status)
+      filteredSubCategories = filteredSubCategories.filter((sc) =>
+        Array.from(statusFilter).includes(sc.practise_status)
       );
     }
 
-    return filteredUsers;
-  }, [users, filterValue, statusFilter]);
+    return filteredSubCategories;
+  }, [subCategories, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -195,8 +195,8 @@ const InstructorSubcategoryDataTable = ({
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const renderCell = React.useCallback((sc, columnKey) => {
+    const cellValue = sc[columnKey];
 
     switch (columnKey) {
       case "actions":
@@ -211,12 +211,15 @@ const InstructorSubcategoryDataTable = ({
               <DropdownMenu>
                 <DropdownItem
                   as={Link}
-                  href={"/admin/subcategory/edit/" + user.sub_category_id}
+                  href={
+                    "/instructor/sub-category/view?type=edit&id=" +
+                    sc.sub_category_id
+                  }
                 >
                   Edit
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => setDeletionSubcategory(user)}
+                  onClick={() => setDeletionSubcategory(sc)}
                   onPress={onOpen}
                 >
                   Delete
@@ -303,7 +306,7 @@ const InstructorSubcategoryDataTable = ({
             <Button
               color="primary"
               as={Link}
-              href={"/admin/subcategory/create"}
+              href={"/instructor/sub-category/view?type=create"}
               endContent={<PlusIcon />}
             >
               Add New
@@ -312,7 +315,7 @@ const InstructorSubcategoryDataTable = ({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} Sub Categories
+            Total {subCategories.length} Sub Categories
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -333,7 +336,7 @@ const InstructorSubcategoryDataTable = ({
     statusFilter,
     visibleColumns,
     onRowsPerPageChange,
-    users.length,
+    subCategories.length,
     onSearchChange,
     hasSearchFilter,
   ]);

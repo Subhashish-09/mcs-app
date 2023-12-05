@@ -13,16 +13,26 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
+  Chip,
+  User,
   Pagination,
   Link,
 } from "@nextui-org/react";
 
 const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "Category", uid: "category", sortable: true },
-  { name: "Sub Category", uid: "sub_category", sortable: true },
-  { name: "NAME", uid: "topic_name", sortable: true },
+  { name: "Category", uid: "quiz_category", sortable: true },
+  { name: "Sub Category", uid: "quiz_sub_category", sortable: true },
+  { name: "NAME", uid: "quiz_name", sortable: true },
+  { name: "STATUS", uid: "quiz_status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
+];
+
+const statusOptions = [
+  { name: "Published", uid: "PUBLIC" },
+  { name: "Scheduled", uid: "SCHEDULE" },
+  { name: "Private", uid: "PRIVATE" },
+  { name: "Draft", uid: "DRAFT" },
 ];
 
 const capitalize = (str) => {
@@ -121,20 +131,22 @@ const VerticalDotsIcon = ({ size = 24, width, height, ...props }) => (
   </svg>
 );
 
+const statusColorMap = {
+  PUBLIC: "success",
+  SCHEDULE: "danger",
+  PRIVATE: "warning",
+};
+
 const INITIAL_VISIBLE_COLUMNS = [
   "id",
-  "category",
-  "sub_category",
-  "topic_name",
+  "quiz_category",
+  "quiz_sub_category",
+  "quiz_name",
+  "quiz_status",
   "actions",
 ];
 
-const InstructorTopicDataTable = ({
-  topicData,
-  onOpen,
-  setDeletionTopic,
-  startsWith,
-}) => {
+const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -147,7 +159,7 @@ const InstructorTopicDataTable = ({
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [topics, setTopics] = React.useState(topicData);
+  const [users, setUsers] = React.useState(quizData);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -160,24 +172,24 @@ const InstructorTopicDataTable = ({
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredTopics = [...topics];
+    let filteredUsers = [...users];
 
     if (hasSearchFilter) {
-      filteredTopics = filteredTopics.filter((topic) =>
-        topic.topic_name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredUsers = filteredUsers.filter((user) =>
+        user.quiz_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredTopics = filteredTopics.filter((topic) =>
-        Array.from(statusFilter).includes(topic.practise_status)
+      filteredUsers = filteredUsers.filter((user) =>
+        Array.from(statusFilter).includes(user.quiz_status)
       );
     }
 
-    return filteredTopics;
-  }, [topics, filterValue, statusFilter]);
+    return filteredUsers;
+  }, [users, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -198,10 +210,32 @@ const InstructorTopicDataTable = ({
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((topic, columnKey) => {
-    const cellValue = topic[columnKey];
+  const renderCell = React.useCallback((user, columnKey) => {
+    const cellValue = user[columnKey];
 
     switch (columnKey) {
+      case "name":
+        return (
+          <User
+            avatarProps={{ radius: "lg", src: user.avatar }}
+            description={user.email}
+            name={cellValue}
+          >
+            {user.email}
+          </User>
+        );
+
+      case "status":
+        return (
+          <Chip
+            className="capitalize"
+            color={statusColorMap[user.status]}
+            size="sm"
+            variant="flat"
+          >
+            {cellValue}
+          </Chip>
+        );
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
@@ -214,20 +248,23 @@ const InstructorTopicDataTable = ({
               <DropdownMenu>
                 <DropdownItem
                   as={Link}
-                  href={
-                    "/" +
-                    startsWith +
-                    "/topic/view?type=edit&id=" +
-                    topic.topic_id
-                  }
+                  href={"/instructor/quiz/view?type=edit&id=" + user.quiz_id}
                 >
                   Edit
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => setDeletionTopic(topic)}
+                  onClick={() => setDeletionQuiz(user)}
                   onPress={onOpen}
                 >
                   Delete
+                </DropdownItem>
+                <DropdownItem
+                  as={Link}
+                  href={
+                    "/instructor/quiz/question?type=all?qid=" + user.quiz_id
+                  }
+                >
+                  Questions
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -289,6 +326,30 @@ const InstructorTopicDataTable = ({
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
+                  Status
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                disallowEmptySelection
+                aria-label="Table Columns"
+                closeOnSelect={false}
+                selectedKeys={statusFilter}
+                selectionMode="multiple"
+                onSelectionChange={setStatusFilter}
+              >
+                {statusOptions.map((status) => (
+                  <DropdownItem key={status.uid} className="capitalize">
+                    {capitalize(status.name)}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            </Dropdown>
+            <Dropdown>
+              <DropdownTrigger className="hidden sm:flex">
+                <Button
+                  endContent={<ChevronDownIcon className="text-small" />}
+                  variant="flat"
+                >
                   Columns
                 </Button>
               </DropdownTrigger>
@@ -311,7 +372,7 @@ const InstructorTopicDataTable = ({
             <Button
               color="primary"
               as={Link}
-              href={"/" + startsWith + "/topic/view?type=create"}
+              href={"/instructor/quiz/view?type=create"}
               endContent={<PlusIcon />}
             >
               Add New
@@ -320,7 +381,7 @@ const InstructorTopicDataTable = ({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {topics.length} Topics
+            Total {users.length} Quizzes
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -341,7 +402,7 @@ const InstructorTopicDataTable = ({
     statusFilter,
     visibleColumns,
     onRowsPerPageChange,
-    topics.length,
+    users.length,
     onSearchChange,
     hasSearchFilter,
   ]);
@@ -413,7 +474,7 @@ const InstructorTopicDataTable = ({
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No Categories found"} items={sortedItems}>
+      <TableBody emptyContent={"No Practise Tests found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
@@ -426,4 +487,4 @@ const InstructorTopicDataTable = ({
   );
 };
 
-export default InstructorTopicDataTable;
+export default InstructorQuizDataTable;
