@@ -8,6 +8,7 @@ import { loadQuestion } from "../actions/quiz-functions";
 import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import styles from "../styles/Quiz.module.css";
+import QuizQuestionButtons from "./quiz-question-buttons";
 
 const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
   const [question, setQuestion] = useState(quizQBank);
@@ -22,7 +23,7 @@ const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
     setQuestionNo(nextQuestionNo);
     document
       .getElementById("QNO_" + nextQuestionNo)
-      ?.scrollIntoView({ behavior: "smooth", block: "top" });
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
     const question = await loadQuestion(nextQuestionNo, quizId);
     setQuestion(question);
     setCurrentSubject(question["subject"]);
@@ -132,22 +133,12 @@ const QuizPanel = ({ quizQBank, quiz, questionButtons, quizSubjects }) => {
               styles["quizButtonsHeight"] + " p-5 border-2 border-blue-900"
             }
           >
-            <div className="grid grid-cols-5 gap-3">
-              {questionButtons
-                .filter((e) => e["question_sub_category"] === currentSubject)
-                .map((e) => (
-                  <Button
-                    size="sm"
-                    id={"QNO_" + e["question_no"]}
-                    color={
-                      e["question_no"] === questionNo ? "primary" : "default"
-                    }
-                    onClick={() => loadQuestionByNumber(e["question_no"])}
-                  >
-                    {e["question_no"]}
-                  </Button>
-                ))}
-            </div>
+            <QuizQuestionButtons
+              currentSubject={currentSubject}
+              loadQuestionByNumber={loadQuestionByNumber}
+              questionButtons={questionButtons}
+              questionNo={questionNo}
+            />
           </div>
         </div>
       </div>
