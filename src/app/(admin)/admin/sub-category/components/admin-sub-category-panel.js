@@ -2,13 +2,13 @@
 
 import { useDisclosure } from "@nextui-org/react";
 import { useState } from "react";
-import InstructorSubcategoryDataTable from "./instructor-sub-category-data-table";
+import AdminSubcategoryDataTable from "./admin-sub-category-data-table";
 
-const InstructorSubCategoryPanel = ({ subcategory }) => {
+const AdminSubCategoryPanel = ({ subcategory }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [deletionSubCategory, setDeletionSubcategory] = useState();
   return (
-    <InstructorSubcategoryDataTable
+    <AdminSubcategoryDataTable
       subCategoryData={subcategory}
       onOpen={onOpen}
       setDeletionSubcategory={setDeletionSubcategory}
@@ -16,4 +16,4 @@ const InstructorSubCategoryPanel = ({ subcategory }) => {
   );
 };
 
-export default InstructorSubCategoryPanel;
+export default AdminSubCategoryPanel;

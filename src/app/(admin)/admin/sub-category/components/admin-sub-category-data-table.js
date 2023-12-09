@@ -19,7 +19,8 @@ import {
 
 const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "NAME", uid: "category_name", sortable: true },
+  { name: "Category", uid: "category", sortable: true },
+  { name: "NAME", uid: "sub_category_name", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
 
@@ -119,12 +120,17 @@ const VerticalDotsIcon = ({ size = 24, width, height, ...props }) => (
   </svg>
 );
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "category_name", "actions"];
+const INITIAL_VISIBLE_COLUMNS = [
+  "id",
+  "category",
+  "sub_category_name",
+  "actions",
+];
 
-const InstructorCategoryDataTable = ({
-  categoryData,
+const AdminSubcategoryDataTable = ({
+  subCategoryData,
   onOpen,
-  setDeletionCategory,
+  setDeletionSubcategory,
 }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -138,7 +144,7 @@ const InstructorCategoryDataTable = ({
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [categories, setCategories] = React.useState(categoryData);
+  const [subCategories, setSubCategories] = React.useState(subCategoryData);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -151,24 +157,24 @@ const InstructorCategoryDataTable = ({
   }, [visibleColumns]);
 
   const filteredItems = React.useMemo(() => {
-    let filteredCategories = [...categories];
+    let filteredSubCategories = [...subCategories];
 
     if (hasSearchFilter) {
-      filteredCategories = filteredCategories.filter((category) =>
-        category.category_name.toLowerCase().includes(filterValue.toLowerCase())
+      filteredSubCategories = filteredSubCategories.filter((sc) =>
+        sc.sub_category_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
     ) {
-      filteredCategories = filteredCategories.filter((category) =>
-        Array.from(statusFilter).includes(category.practise_status)
+      filteredSubCategories = filteredSubCategories.filter((sc) =>
+        Array.from(statusFilter).includes(sc.practise_status)
       );
     }
 
-    return filteredCategories;
-  }, [categories, filterValue, statusFilter]);
+    return filteredSubCategories;
+  }, [subCategories, filterValue, statusFilter]);
 
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -189,8 +195,8 @@ const InstructorCategoryDataTable = ({
     });
   }, [sortDescriptor, items]);
 
-  const renderCell = React.useCallback((category, columnKey) => {
-    const cellValue = category[columnKey];
+  const renderCell = React.useCallback((sc, columnKey) => {
+    const cellValue = sc[columnKey];
 
     switch (columnKey) {
       case "actions":
@@ -206,14 +212,14 @@ const InstructorCategoryDataTable = ({
                 <DropdownItem
                   as={Link}
                   href={
-                    "/instructor/category/view?type=edit&id=" +
-                    category.category_id
+                    "/admin/sub-category/view?type=edit&id=" +
+                    sc.sub_category_id
                   }
                 >
                   Edit
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => setDeletionCategory(category)}
+                  onClick={() => setDeletionSubcategory(sc)}
                   onPress={onOpen}
                 >
                   Delete
@@ -300,7 +306,7 @@ const InstructorCategoryDataTable = ({
             <Button
               color="primary"
               as={Link}
-              href={"/instructor/category/view?type=create"}
+              href={"/admin/sub-category/view?type=create"}
               endContent={<PlusIcon />}
             >
               Add New
@@ -309,7 +315,7 @@ const InstructorCategoryDataTable = ({
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {categories.length} Categories
+            Total {subCategories.length} Sub Categories
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -330,7 +336,7 @@ const InstructorCategoryDataTable = ({
     statusFilter,
     visibleColumns,
     onRowsPerPageChange,
-    categories.length,
+    subCategories.length,
     onSearchChange,
     hasSearchFilter,
   ]);
@@ -415,4 +421,4 @@ const InstructorCategoryDataTable = ({
   );
 };
 
-export default InstructorCategoryDataTable;
+export default AdminSubcategoryDataTable;

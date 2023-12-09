@@ -1,14 +1,14 @@
 "use client";
 
 import { useDisclosure } from "@nextui-org/react";
-import InstructorCategoryDataTable from "./instructor-category-data-table";
+import AdminCategoryDataTable from "./admin-category-data-table";
 import { useState } from "react";
 
-const InstructorCategoryPanel = ({ category }) => {
+const AdminCategoryPanel = ({ category }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [deletionCategory, setDeletionCategory] = useState();
   return (
-    <InstructorCategoryDataTable
+    <AdminCategoryDataTable
       categoryData={category}
       onOpen={onOpen}
       setDeletionCategory={setDeletionCategory}
@@ -16,4 +16,4 @@ const InstructorCategoryPanel = ({ category }) => {
   );
 };
 
-export default InstructorCategoryPanel;
+export default AdminCategoryPanel;

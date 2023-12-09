@@ -129,12 +129,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "actions",
 ];
 
-const InstructorTopicDataTable = ({
-  topicData,
-  onOpen,
-  setDeletionTopic,
-  startsWith,
-}) => {
+const AdminTopicDataTable = ({ topicData, onOpen, setDeletionTopic }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -214,12 +209,7 @@ const InstructorTopicDataTable = ({
               <DropdownMenu>
                 <DropdownItem
                   as={Link}
-                  href={
-                    "/" +
-                    startsWith +
-                    "/topic/view?type=edit&id=" +
-                    topic.topic_id
-                  }
+                  href={"/admin/topic/view?type=edit&id=" + topic.topic_id}
                 >
                   Edit
                 </DropdownItem>
@@ -311,7 +301,7 @@ const InstructorTopicDataTable = ({
             <Button
               color="primary"
               as={Link}
-              href={"/" + startsWith + "/topic/view?type=create"}
+              href={"/admin/topic/view?type=create"}
               endContent={<PlusIcon />}
             >
               Add New
@@ -426,4 +416,4 @@ const InstructorTopicDataTable = ({
   );
 };
 
-export default InstructorTopicDataTable;
+export default AdminTopicDataTable;
