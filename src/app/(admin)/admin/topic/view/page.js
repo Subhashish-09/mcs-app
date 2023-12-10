@@ -1,3 +1,3 @@
-const InstructorTopicViewPage = () => {};
+const AdminTopicViewPage = () => {};
 
-export default InstructorTopicViewPage;
+export default AdminTopicViewPage;

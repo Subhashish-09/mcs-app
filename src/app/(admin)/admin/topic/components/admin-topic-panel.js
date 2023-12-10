@@ -1,7 +1,7 @@
 "use client";
 
 import { useDisclosure } from "@nextui-org/react";
-import AdminTopicDataTable from "./instructor-topic-data-table";
+import AdminTopicDataTable from "./admin-topic-data-table";
 import { useState } from "react";
 
 const AdminTopicPanel = ({ topic }) => {

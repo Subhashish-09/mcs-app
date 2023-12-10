@@ -1,7 +1,7 @@
 import { supabaseServer } from "@/lib/supabase/server";
-import AdminTopicPanel from "./components/instructor-topic-panel";
+import AdminTopicPanel from "./components/admin-topic-panel";
 
-const TopicPage = async () => {
+const AdminTopicPage = async () => {
   const supabase = await supabaseServer();
 
   const { data: topic } = await supabase.from("topic").select();
@@ -9,4 +9,4 @@ const TopicPage = async () => {
   return <AdminTopicPanel topic={topic} />;
 };
 
-export default TopicPage;
+export default AdminTopicPage;
