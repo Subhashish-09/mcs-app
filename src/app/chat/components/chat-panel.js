@@ -1,20 +1,22 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button, Input } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import supabaseClient from "@/lib/supabase/client";
-
-const FormSchema = z.object({
-  message: z.string().min(1),
-});
+import { useFormik } from "formik";
 
 const ChatPanel = () => {
   const supabase = supabaseClient();
   const [messages, setMessages] = useState();
+
+  const formik = useFormik({
+    initialValues: {
+      message: "",
+    },
+    onSubmit: (values, { resetForm }) => {
+      handleMessage(values, resetForm);
+    },
+  });
 
   useEffect(() => {
     const fetchPoll = async () => {
@@ -49,16 +51,14 @@ const ChatPanel = () => {
     };
   }, []);
 
-  const handleMessage = async (data) => {
+  const handleMessage = async (data, resetForm) => {
     const { data: chats, error } = await supabase
       .from("chats")
       .insert([{ message_text: data.message }])
       .select()
       .single();
 
-    form.reset({
-      message: "",
-    });
+    resetForm();
 
     if (error) {
       console.error("Error updating vote:", error.message);
@@ -67,13 +67,6 @@ const ChatPanel = () => {
 
     setMessages((prevMessages) => [...prevMessages, chats]);
   };
-
-  const form = useForm({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      message: "",
-    },
-  });
 
   return (
     <div className="m-8">
@@ -84,35 +77,25 @@ const ChatPanel = () => {
           </ul>
         ))}
       </div>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(handleMessage)}
-          className="  flex fixed items-center flex-wrap  bottom-8"
-        >
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    size="sm"
-                    variant="bordered"
-                    placeholder="Enter Your Message"
-                    {...field}
-                    type="text"
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-              </FormItem>
-            )}
-          />
 
-          <Button color="primary" size="lg" type="submit">
-            Submit
-          </Button>
-        </form>
-      </Form>
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex fixed items-center flex-wrap  bottom-8"
+      >
+        <Input
+          name="message"
+          size="sm"
+          variant="bordered"
+          placeholder="Enter Your Message"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.message}
+        />
+
+        <Button color="primary" size="lg" type="submit">
+          Submit
+        </Button>
+      </form>
     </div>
   );
 };
