@@ -146,7 +146,7 @@ const INITIAL_VISIBLE_COLUMNS = [
   "actions",
 ];
 
-const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
+const AdminQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -247,12 +247,6 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem
-                  as={Link}
-                  href={"/instructor/quiz/view?type=edit&id=" + user.quiz_id}
-                >
-                  Edit
-                </DropdownItem>
-                <DropdownItem
                   onClick={() => setDeletionQuiz(user)}
                   onPress={onOpen}
                 >
@@ -260,9 +254,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
                 </DropdownItem>
                 <DropdownItem
                   as={Link}
-                  href={
-                    "/instructor/quiz/question?type=all&qid=" + user.quiz_id
-                  }
+                  href={"/admin/quiz/question?type=all&qid=" + user.quiz_id}
                 >
                   Questions
                 </DropdownItem>
@@ -368,15 +360,6 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-
-            <Button
-              color="primary"
-              as={Link}
-              href={"/instructor/quiz/view?type=create"}
-              endContent={<PlusIcon />}
-            >
-              Add New
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
@@ -487,4 +470,4 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
   );
 };
 
-export default InstructorQuizDataTable;
+export default AdminQuizDataTable;

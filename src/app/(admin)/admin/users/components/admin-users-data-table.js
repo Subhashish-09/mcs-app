@@ -13,26 +13,14 @@ import {
   Dropdown,
   DropdownMenu,
   DropdownItem,
-  Chip,
-  User,
   Pagination,
   Link,
 } from "@nextui-org/react";
 
 const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "Category", uid: "quiz_category", sortable: true },
-  { name: "Sub Category", uid: "quiz_sub_category", sortable: true },
-  { name: "NAME", uid: "quiz_name", sortable: true },
-  { name: "STATUS", uid: "quiz_status", sortable: true },
+  { name: "NAME", uid: "category_name", sortable: true },
   { name: "ACTIONS", uid: "actions" },
-];
-
-const statusOptions = [
-  { name: "Published", uid: "PUBLIC" },
-  { name: "Scheduled", uid: "SCHEDULE" },
-  { name: "Private", uid: "PRIVATE" },
-  { name: "Draft", uid: "DRAFT" },
 ];
 
 const capitalize = (str) => {
@@ -131,22 +119,9 @@ const VerticalDotsIcon = ({ size = 24, width, height, ...props }) => (
   </svg>
 );
 
-const statusColorMap = {
-  PUBLIC: "success",
-  SCHEDULE: "danger",
-  PRIVATE: "warning",
-};
+const INITIAL_VISIBLE_COLUMNS = ["id", "category_name", "actions"];
 
-const INITIAL_VISIBLE_COLUMNS = [
-  "id",
-  "quiz_category",
-  "quiz_sub_category",
-  "quiz_name",
-  "quiz_status",
-  "actions",
-];
-
-const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
+const AdminUsersDataTable = ({ usersData, onOpen, setDeletionUser }) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -159,7 +134,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [users, setUsers] = React.useState(quizData);
+  const [users, setUsers] = React.useState(usersData);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -176,7 +151,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.quiz_name.toLowerCase().includes(filterValue.toLowerCase())
+        user.user_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -184,7 +159,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.quiz_status)
+        Array.from(statusFilter).includes(user.user_status)
       );
     }
 
@@ -214,28 +189,6 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
       case "actions":
         return (
           <div className="relative flex justify-end items-center gap-2">
@@ -248,23 +201,15 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
               <DropdownMenu>
                 <DropdownItem
                   as={Link}
-                  href={"/instructor/quiz/view?type=edit&id=" + user.quiz_id}
+                  href={"/admin/users/view?type=edit&id=" + user.id}
                 >
                   Edit
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => setDeletionQuiz(user)}
+                  onClick={() => setDeletionUser(user)}
                   onPress={onOpen}
                 >
                   Delete
-                </DropdownItem>
-                <DropdownItem
-                  as={Link}
-                  href={
-                    "/instructor/quiz/question?type=all&qid=" + user.quiz_id
-                  }
-                >
-                  Questions
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -326,30 +271,6 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="capitalize">
-                    {capitalize(status.name)}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<ChevronDownIcon className="text-small" />}
-                  variant="flat"
-                >
                   Columns
                 </Button>
               </DropdownTrigger>
@@ -372,7 +293,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
             <Button
               color="primary"
               as={Link}
-              href={"/instructor/quiz/view?type=create"}
+              href={"/admin/users/view?type=create"}
               endContent={<PlusIcon />}
             >
               Add New
@@ -381,7 +302,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} Quizzes
+            Total {categories.length} Users
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -474,7 +395,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody emptyContent={"No Practise Tests found"} items={sortedItems}>
+      <TableBody emptyContent={"No Users found"} items={sortedItems}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (
@@ -487,4 +408,4 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
   );
 };
 
-export default InstructorQuizDataTable;
+export default AdminUsersDataTable;

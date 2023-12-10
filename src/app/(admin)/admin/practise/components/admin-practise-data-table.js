@@ -21,10 +21,10 @@ import {
 
 const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "Category", uid: "quiz_category", sortable: true },
-  { name: "Sub Category", uid: "quiz_sub_category", sortable: true },
-  { name: "NAME", uid: "quiz_name", sortable: true },
-  { name: "STATUS", uid: "quiz_status", sortable: true },
+  { name: "Category", uid: "practise_category", sortable: true },
+  { name: "Sub Category", uid: "practise_sub_category", sortable: true },
+  { name: "NAME", uid: "practise_name", sortable: true },
+  { name: "STATUS", uid: "practise_status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
 
@@ -139,14 +139,18 @@ const statusColorMap = {
 
 const INITIAL_VISIBLE_COLUMNS = [
   "id",
-  "quiz_category",
-  "quiz_sub_category",
-  "quiz_name",
-  "quiz_status",
+  "practise_category",
+  "practise_sub_category",
+  "practise_name",
+  "practise_status",
   "actions",
 ];
 
-const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
+const AdminPractiseDataTable = ({
+  practicesData,
+  onOpen,
+  setDeletionPractiseTest,
+}) => {
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(
@@ -159,7 +163,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
     direction: "ascending",
   });
   const [page, setPage] = React.useState(1);
-  const [users, setUsers] = React.useState(quizData);
+  const [users, setUsers] = React.useState(practicesData);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -176,7 +180,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.quiz_name.toLowerCase().includes(filterValue.toLowerCase())
+        user.practise_name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -184,7 +188,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
       Array.from(statusFilter).length !== statusOptions.length
     ) {
       filteredUsers = filteredUsers.filter((user) =>
-        Array.from(statusFilter).includes(user.quiz_status)
+        Array.from(statusFilter).includes(user.practise_status)
       );
     }
 
@@ -247,13 +251,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
               </DropdownTrigger>
               <DropdownMenu>
                 <DropdownItem
-                  as={Link}
-                  href={"/instructor/quiz/view?type=edit&id=" + user.quiz_id}
-                >
-                  Edit
-                </DropdownItem>
-                <DropdownItem
-                  onClick={() => setDeletionQuiz(user)}
+                  onClick={() => setDeletionPractiseTest(user)}
                   onPress={onOpen}
                 >
                   Delete
@@ -261,7 +259,7 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
                 <DropdownItem
                   as={Link}
                   href={
-                    "/instructor/quiz/question?type=all&qid=" + user.quiz_id
+                    "/admin/practise/question?type=all&pid=" + user.practise_id
                   }
                 >
                   Questions
@@ -368,20 +366,11 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-
-            <Button
-              color="primary"
-              as={Link}
-              href={"/instructor/quiz/view?type=create"}
-              endContent={<PlusIcon />}
-            >
-              Add New
-            </Button>
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} Quizzes
+            Total {users.length} Practises
           </span>
           <label className="flex items-center text-default-400 text-small">
             Rows per page:
@@ -487,4 +476,4 @@ const InstructorQuizDataTable = ({ quizData, onOpen, setDeletionQuiz }) => {
   );
 };
 
-export default InstructorQuizDataTable;
+export default AdminPractiseDataTable;
