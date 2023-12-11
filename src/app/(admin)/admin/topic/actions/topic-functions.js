@@ -1,3 +1,7 @@
 "use server";
 
-con
+const CreateTopic = () => {};
+
+const EditTopic = () => {};
+
+export { CreateTopic, EditTopic };
