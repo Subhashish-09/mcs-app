@@ -46,7 +46,7 @@ const InstructorPractiseEditQuestion = ({ question }) => {
   const QuestionSaveHandler = async (form) => {
     let options = {};
 
-    for (let i = 1; i <= question["options_length"]; i++) {
+    for (let i = 1; i <= fields.length; i++) {
       options["option_" + i] = form["options"][i - 1]["value"];
     }
 
