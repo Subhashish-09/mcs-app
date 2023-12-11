@@ -7,7 +7,9 @@ import { Button } from "@nextui-org/react";
 
 const FlashCard = ({ FlashCards, ci }) => {
   const [flip, setFlip] = useState(false);
-  const [flashCards, setFlashCards] = useState(FlashCards[ci]);
+  const [flashCards, setFlashCards] = useState(
+    FlashCards[0]["flash_card_content"]
+  );
   const [currentFCNo, setCurrentFCNo] = useState(0);
   const [currentFlashCard, setCurrentFlashCard] = useState(flashCards[0]);
 
@@ -17,8 +19,8 @@ const FlashCard = ({ FlashCards, ci }) => {
   }, [currentFCNo]);
 
   useEffect(() => {
-    setFlashCards(FlashCards[ci]);
-    setCurrentFlashCard(FlashCards[ci][0]);
+    setFlashCards(FlashCards[1]["flash_card_content"]);
+    setCurrentFlashCard(FlashCards[1]["flash_card_content"][0]);
   }, [ci]);
 
   return (
@@ -63,26 +65,13 @@ const FlashCard = ({ FlashCards, ci }) => {
       </div>
 
       <div className="col-span-5 h-max">
-        <SideBarFlashCard
-          cardId={"3"}
-          cardTitle={"1111111111111111111111111111111"}
-          cardBottom={"12 FlashCards"}
-        />
-        <SideBarFlashCard
-          cardId={"4"}
-          cardTitle={"1111111111111111111111111111111"}
-          cardBottom={"12 FlashCards"}
-        />
-        <SideBarFlashCard
-          cardId={"5"}
-          cardTitle={"1111111111111111111111111111111"}
-          cardBottom={"12 FlashCards"}
-        />
-        <SideBarFlashCard
-          cardId={"6"}
-          cardTitle={"1111111111111111111111111111111"}
-          cardBottom={"12 FlashCards"}
-        />
+        {FlashCards?.filter((e) => e.flash_card_id !== ci).map((fc) => (
+          <SideBarFlashCard
+            cardId={fc.flash_card_id}
+            cardTitle={"1111111111111111111111111111111"}
+            cardBottom={"12 FlashCards"}
+          />
+        ))}
       </div>
     </div>
   );
