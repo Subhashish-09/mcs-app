@@ -46,7 +46,7 @@ const InstructorQuizEditQuestion = ({ question }) => {
   const QuestionSaveHandler = async (form) => {
     let options = {};
 
-    for (let i = 1; i <= question["options_length"]; i++) {
+    for (let i = 1; i <= fields.length; i++) {
       options["option_" + i] = form["options"][i - 1]["value"];
     }
 
@@ -54,7 +54,7 @@ const InstructorQuizEditQuestion = ({ question }) => {
       .from("quizQBank")
       .update({
         question: form["question"],
-        options_length: question["options_length"],
+        options_length: fields.length,
         correct_option: {
           correct:
             question["question_type"] === "MSA"
