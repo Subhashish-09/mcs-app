@@ -54,7 +54,7 @@ const InstructorPractiseEditQuestion = ({ question }) => {
       .from("practiseQBank")
       .update({
         question: form["question"],
-        options_length: question["options_length"],
+        options_length: fields.length,
         correct_option: {
           correct:
             question["question_type"] === "MSA"
