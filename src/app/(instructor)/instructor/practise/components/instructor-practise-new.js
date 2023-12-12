@@ -1,18 +1,13 @@
 "use client";
 
-import {
-  Card,
-  CardHeader,
-  Input,
-  Select,
-  SelectItem,
-  Switch,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
+import { Card, CardHeader, SelectItem, Tab, Tabs } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import SubmitButton from "@/components/submit-button";
+import SubmitButton from "@/components/ui/buttons/submit-button";
+import FormSeoComponents from "@/components/ui/form/form-seo-components";
+import FormInputComponent from "@/components/ui/form/form-input-component";
+import FormSelectComponent from "@/components/ui/form/form-select-component";
+import FormSwitchComponent from "@/components/ui/form/form-switch-component";
 
 const InstructorPractiseCreate = ({
   categories,
@@ -25,25 +20,7 @@ const InstructorPractiseCreate = ({
   const [topicData, setTopicData] = useState(topics);
   const [date, setDate] = useState();
 
-  const [status, setStatus] = useState(new Set([]));
-  const [selectedCategory, setSelectedCategory] = useState(new Set([]));
-  const [selectedSubCategory, setSelectedSubCategory] = useState(new Set([]));
-  const [selectedTopic, setSelectedTopic] = useState(new Set([]));
   const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    const filter = subCategories?.filter(
-      (e) => e.category === selectedCategory.currentKey
-    );
-    setSubCategoryData(filter);
-  }, [selectedCategory.currentKey]);
-
-  useEffect(() => {
-    const filter = topics
-      ?.filter((e) => e.category === selectedCategory.currentKey)
-      .filter((e) => e.sub_category === selectedSubCategory.currentKey);
-    setTopicData(filter);
-  }, [selectedCategory.currentKey, selectedSubCategory.currentKey]);
 
   const formik = useFormik({
     initialValues: {
@@ -56,11 +33,26 @@ const InstructorPractiseCreate = ({
       practise_seo_keywords: "",
       practise_seo_slug: "",
       practise_is_active: false,
+      practise_status: "",
     },
     onSubmit: (values) => {
       console.log(values);
     },
   });
+
+  useEffect(() => {
+    const filter = subCategories?.filter(
+      (e) => e.category === formik.values.category
+    );
+    setSubCategoryData(filter);
+  }, [formik.values.category]);
+
+  useEffect(() => {
+    const filter = topics
+      ?.filter((e) => e.category === formik.values.category)
+      .filter((e) => e.sub_category === formik.values.sub_category);
+    setTopicData(filter);
+  }, [formik.values.category, formik.values.sub_category]);
 
   return (
     <>
@@ -79,16 +71,12 @@ const InstructorPractiseCreate = ({
                   <CardHeader>
                     <p>Practise Details</p>
                   </CardHeader>
-                  <Select
+                  <FormSelectComponent
                     label="Category"
-                    variant="bordered"
-                    placeholder="Select a Category"
                     name="category"
-                    selectedKeys={selectedCategory}
-                    onChange={formik.handleChange}
-                    value={formik.values.category}
-                    onSelectionChange={setSelectedCategory}
-                    className="mb-5"
+                    placeholder="Select a Category"
+                    selectedKeys={[formik.values.category]}
+                    formik={formik}
                   >
                     {categoryData?.map((cat) => (
                       <SelectItem
@@ -98,17 +86,14 @@ const InstructorPractiseCreate = ({
                         {cat.category_name}
                       </SelectItem>
                     ))}
-                  </Select>
-                  <Select
+                  </FormSelectComponent>
+
+                  <FormSelectComponent
+                    formik={formik}
                     label="Sub Category"
-                    variant="bordered"
                     placeholder="Select a Sub Category"
                     name="sub_category"
-                    selectedKeys={selectedSubCategory}
-                    onChange={formik.handleChange}
-                    value={formik.values.sub_category}
-                    onSelectionChange={setSelectedSubCategory}
-                    className="mb-5"
+                    selectedKeys={[formik.values.sub_category]}
                   >
                     {subCategoryData?.map((cat) => (
                       <SelectItem
@@ -118,17 +103,13 @@ const InstructorPractiseCreate = ({
                         {cat.sub_category_name}
                       </SelectItem>
                     ))}
-                  </Select>
-                  <Select
-                    variant="bordered"
+                  </FormSelectComponent>
+                  <FormSelectComponent
+                    formik={formik}
                     label="Topic"
                     placeholder="Select a Topic"
                     name="topic"
-                    selectedKeys={selectedTopic}
-                    onChange={formik.handleChange}
-                    value={formik.values.topic}
-                    onSelectionChange={setSelectedTopic}
-                    className="mb-5"
+                    selectedKeys={[formik.values.topic]}
                   >
                     {topicData &&
                       topicData?.map((cat) => (
@@ -139,21 +120,17 @@ const InstructorPractiseCreate = ({
                           {cat.topic_name}
                         </SelectItem>
                       ))}
-                  </Select>
+                  </FormSelectComponent>
                 </Tab>
                 <Tab key={"Practise Info"} title={"Practise Info"}>
                   <CardHeader>
                     <p>Practise Info</p>
                   </CardHeader>
-                  <Input
-                    variant="bordered"
-                    label="Practise Name"
-                    name="practise_name"
-                    size="lg"
-                    type="text"
-                    onChange={formik.handleChange}
-                    value={formik.values.practise_name}
-                    endContent={formik.values.practise_name.length}
+                  <FormInputComponent
+                    formik={formik}
+                    label={"Practise Name"}
+                    name={"practise_name"}
+                    length={formik.values.practise_name.length}
                   />
                 </Tab>
                 <Tab
@@ -163,57 +140,33 @@ const InstructorPractiseCreate = ({
                   <CardHeader>
                     <p>Practise SEO Details</p>
                   </CardHeader>
-                  <Input
-                    variant="bordered"
-                    type="text"
-                    label="Practise SEO Title"
-                    name="practise_seo_title"
-                    className="mb-5"
-                    onChange={formik.handleChange}
-                    value={formik.values.practise_seo_title}
-                    endContent={formik.values.practise_seo_title.length}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    label="Practise SEO Description"
-                    name="practise_seo_description"
-                    className="mb-5"
-                    onChange={formik.handleChange}
-                    value={formik.values.practise_seo_description}
-                    endContent={formik.values.practise_seo_description.length}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    label="Practise SEO Keywords"
-                    name="practise_seo_keywords"
-                    className="mb-5"
-                    onChange={formik.handleChange}
-                    value={formik.values.practise_seo_keywords}
-                    endContent={formik.values.practise_seo_keywords.length}
-                  />
-                  <Input
-                    type="text"
-                    variant="bordered"
-                    label="Practise SEO Slug"
-                    name="practise_seo_slug"
-                    className="mb-5"
-                    onChange={formik.handleChange}
-                    value={formik.values.practise_seo_slug}
-                    endContent={formik.values.practise_seo_slug.length}
+
+                  <FormSeoComponents
+                    formik={formik}
+                    titleName={"practise_seo_title"}
+                    titleLabel={"Practise SEO Title"}
+                    titleLength={formik.values.practise_seo_title.length}
+                    descriptionName={"practise_seo_description"}
+                    descriptionLabel={"Practise SEO Description"}
+                    descriptionLength={
+                      formik.values.practise_seo_description.length
+                    }
+                    keywordsName={"practise_seo_keywords"}
+                    keywordsLabel={"Practise SEO Keywords"}
+                    keywordsLength={formik.values.practise_seo_keywords.length}
+                    slugName={"practise_seo_slug"}
+                    slugLabel={"Practise SEO Slug"}
+                    slugLength={formik.values.practise_seo_slug.length}
                   />
                 </Tab>
                 <Tab key={"Status & Visibility"} title={"Status & Visibility"}>
                   <CardHeader>Status & Visibility</CardHeader>
-                  <Select
+                  <FormSelectComponent
                     label="Visibility"
                     name="practise_status"
                     placeholder="Select Status"
-                    selectedKeys={status}
-                    onSelectionChange={setStatus}
-                    variant="bordered"
-                    className="mb-5"
+                    formik={formik}
+                    selectedKeys={[formik.values.practise_status]}
                   >
                     <SelectItem key={"PUBLIC"} value={"Published"}>
                       Published
@@ -227,19 +180,18 @@ const InstructorPractiseCreate = ({
                     <SelectItem key={"DRAFT"} value={"Draft"}>
                       Draft
                     </SelectItem>
-                  </Select>
-                  {status && status.currentKey === "SCHEDULE" && (
-                    <DateTimeContainer dateChange={setDate} />
-                  )}
+                  </FormSelectComponent>
+
+                  {formik.values.practise_status &&
+                    formik.values.practise_status === "SCHEDULE" && (
+                      <DateTimeContainer dateChange={setDate} />
+                    )}
                   <div className="flex gap-8 justify-between">
-                    <Switch
-                      name="practise_is_active"
-                      onChange={formik.handleChange}
-                      isSelected={formik.values.practise_is_active}
-                      size="lg"
-                    >
-                      Practise Is Active
-                    </Switch>
+                    <FormSwitchComponent
+                      formik={formik}
+                      name={"practise_is_active"}
+                      label={"Practise Is Active"}
+                    />
                     <SubmitButton isSaving={isSaving} />
                   </div>
                 </Tab>
