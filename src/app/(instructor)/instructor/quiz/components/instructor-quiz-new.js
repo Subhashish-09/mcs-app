@@ -6,14 +6,7 @@ import FormSelectComponent from "@/components/ui/form/form-select-component";
 import FormSeoComponents from "@/components/ui/form/form-seo-components";
 import FormSwitchComponent from "@/components/ui/form/form-switch-component";
 import { Card, CardHeader, SelectItem, Tab, Tabs } from "@nextui-org/react";
-import {
-  ErrorMessage,
-  Field,
-  FieldArray,
-  Form,
-  Formik,
-  useFormik,
-} from "formik";
+import { Field, FieldArray, Form, Formik, useFormik } from "formik";
 import { useEffect, useState } from "react";
 
 const InstructorQuizNew = ({
