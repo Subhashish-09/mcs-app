@@ -12,7 +12,7 @@ const AdminCategoryViewPage = async ({ searchParams }) => {
       .select()
       .eq("category_id", searchParams["id"])
       .single();
-    console.log(category);
+
     return <AdminCategoryEdit categoryData={category} />;
   }
 };
