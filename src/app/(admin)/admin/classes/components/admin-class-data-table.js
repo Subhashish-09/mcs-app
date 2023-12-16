@@ -201,7 +201,7 @@ const AdminClassDataTable = ({ classData, onOpen, setDeletionClass }) => {
               <DropdownMenu>
                 <DropdownItem
                   as={Link}
-                  href={"/admin/class/view?type=edit&id=" + clas.class_id}
+                  href={"/admin/classes/view?type=edit&id=" + clas.class_id}
                 >
                   Edit
                 </DropdownItem>
@@ -293,7 +293,7 @@ const AdminClassDataTable = ({ classData, onOpen, setDeletionClass }) => {
             <Button
               color="primary"
               as={Link}
-              href={"/admin/class/view?type=create"}
+              href={"/admin/classes/view?type=create"}
               endContent={<PlusIcon />}
             >
               Add New

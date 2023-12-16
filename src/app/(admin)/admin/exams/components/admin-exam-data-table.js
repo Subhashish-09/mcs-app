@@ -19,7 +19,7 @@ import {
 
 const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "NAME", uid: "category_name", sortable: true },
+  { name: "NAME", uid: "exam_name", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
 
@@ -119,7 +119,7 @@ const VerticalDotsIcon = ({ size = 24, width, height, ...props }) => (
   </svg>
 );
 
-const INITIAL_VISIBLE_COLUMNS = ["id", "category_name", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["id", "exam_name", "actions"];
 
 const AdminExamDataTable = ({ examData, onOpen, setDeletionExam }) => {
   const [filterValue, setFilterValue] = React.useState("");
